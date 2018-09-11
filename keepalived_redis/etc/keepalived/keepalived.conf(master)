@@ -1,0 +1,37 @@
+! Configuration File for keepalived
+
+global_defs {
+     #router_id main100
+}
+
+vrrp_script chk_redis
+{
+     script "/etc/keepalived/scripts/redis_check.sh 127.0.0.1 6379"
+     interval 5
+     timeout 2
+     fall 3
+}
+
+vrrp_instance redis {
+     state MASTER # master set to SLAVE also
+     interface enp0s3 
+     virtual_router_id 50
+     priority  150
+     nopreempt # no seize,must add
+     advert_int 1
+     authentication {   #all node must same
+         auth_type PASS
+         auth_pass 1111
+     }
+     virtual_ipaddress {
+        10.0.2.80
+     }
+     track_script {
+         chk_redis
+     }
+     notify_master "/etc/keepalived/scripts/redis_master.sh 127.0.0.1 10.0.2.118 6379"
+     notify_backup "/etc/keepalived/scripts/redis_backup.sh 127.0.0.1 10.0.2.118 6379"
+     notify_fault /etc/keepalived/scripts/redis_fault.sh
+     notify_stop /etc/keepalived/scripts/redis_stop.sh
+}
+

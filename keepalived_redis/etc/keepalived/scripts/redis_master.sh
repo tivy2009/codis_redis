@@ -1,5 +1,5 @@
 #!/bin/bash
-REDISCLI="./usr/local/bin/redis-cli -h $1 -p $3" 
+REDISCLI="/usr/local/bin/redis-cli -h $1 -p $3" 
 ls_date=`date +%Y%m%d`
 LOGFILE="/etc/keepalived/logs/keepalived-redis-state_$ls_date.log"
 echo "[master]" >> $LOGFILE

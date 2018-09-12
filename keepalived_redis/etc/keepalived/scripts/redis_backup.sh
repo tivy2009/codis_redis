@@ -1,5 +1,5 @@
 #!/bin/bash
-REDISCLI="./usr/local/bin/redis-cli" 
+REDISCLI="/usr/local/bin/redis-cli" 
 ls_date=`date +%Y%m%d`
 LOGFILE="/etc/keepalived/logs/keepalived-redis-state_$ls_date.log"
 echo "[backup]" >> $LOGFILE
